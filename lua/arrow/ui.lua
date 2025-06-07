@@ -412,7 +412,7 @@ function M.openMenu(bufnr)
 
 	local call_buffer = bufnr or vim.api.nvim_get_current_buf()
 
-+       if #vim.g.arrow_filenames == 0 then
+	if #vim.g.arrow_filenames == 0 then
 		persist.load_cache_file()
 	end
 
