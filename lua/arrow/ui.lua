@@ -16,7 +16,7 @@ local function getActionsMenu()
 
 	if #vim.g.arrow_filenames == 0 then
 		return {
-			string.format("%s Save File", mappings.toggle),
+			string.format("%s Add File", mappings.toggle),
 		}
 	end
 
@@ -37,12 +37,16 @@ local function getActionsMenu()
 
 	if separate_save_and_remove then
 		table.insert(return_mappings, 1, string.format("%s Remove Current File", mappings.remove))
-		table.insert(return_mappings, 1, string.format("%s Save Current File", mappings.toggle))
+		table.insert(return_mappings, 1, string.format("%s Add Current File", mappings.toggle))
 	else
 		if already_saved == true then
-			table.insert(return_mappings, 1, string.format("%s Remove Current File", mappings.toggle))
+			table.insert(
+				return_mappings,
+				1,
+				string.format("%s Remove Current File", mappings.toggle)
+			)
 		else
-			table.insert(return_mappings, 1, string.format("%s Save Current File", mappings.toggle))
+			table.insert(return_mappings, 1, string.format("%s Add Current File", mappings.toggle))
 		end
 	end
 
@@ -104,7 +108,10 @@ local function format_file_names(file_names)
 				local location = vim.fn.fnamemodify(full_path, ":h:h")
 
 				if #name_occurrences[folder_name] > 1 or config.getState("always_show_path") then
-					table.insert(formatted_names, string.format("%s . %s", folder_name .. "/", location))
+					table.insert(
+						formatted_names,
+						string.format("%s . %s", folder_name .. "/", location)
+					)
 				else
 					table.insert(formatted_names, string.format("%s", folder_name .. "/"))
 				end
@@ -129,7 +136,10 @@ local function format_file_names(file_names)
 				display_path = vim.fn.fnamemodify(full_path, ":h")
 			end
 
-			table.insert(formatted_names, string.format("%s . %s", tail_with_extension, display_path))
+			table.insert(
+				formatted_names,
+				string.format("%s . %s", tail_with_extension, display_path)
+			)
 		end
 	end
 
@@ -268,19 +278,40 @@ local function render_highlights(buffer)
 
 	if deleteModeLine >= 0 then
 		if vim.b.arrow_current_mode == "delete_mode" then
-			vim.api.nvim_buf_add_highlight(menuBuf, -1, "ArrowDeleteMode", #fileNames + deleteModeLine + 2, 0, -1)
+			vim.api.nvim_buf_add_highlight(
+				menuBuf,
+				-1,
+				"ArrowDeleteMode",
+				#fileNames + deleteModeLine + 2,
+				0,
+				-1
+			)
 		end
 	end
 
 	if verticalModeLine >= 0 then
 		if vim.b.arrow_current_mode == "vertical_mode" then
-			vim.api.nvim_buf_add_highlight(menuBuf, -1, "ArrowAction", #fileNames + verticalModeLine + 2, 0, -1)
+			vim.api.nvim_buf_add_highlight(
+				menuBuf,
+				-1,
+				"ArrowAction",
+				#fileNames + verticalModeLine + 2,
+				0,
+				-1
+			)
 		end
 	end
 
 	if horizontalModelLine >= 0 then
 		if vim.b.arrow_current_mode == "horizontal_mode" then
-			vim.api.nvim_buf_add_highlight(menuBuf, -1, "ArrowAction", #fileNames + horizontalModelLine + 2, 0, -1)
+			vim.api.nvim_buf_add_highlight(
+				menuBuf,
+				-1,
+				"ArrowAction",
+				#fileNames + horizontalModelLine + 2,
+				0,
+				-1
+			)
 		end
 	end
 
@@ -288,11 +319,19 @@ local function render_highlights(buffer)
 	local line_number = 1
 
 	while line_number <= #fileNames + 1 do
-		local line_content = vim.api.nvim_buf_get_lines(menuBuf, line_number - 1, line_number, false)[1]
+		local line_content =
+			vim.api.nvim_buf_get_lines(menuBuf, line_number - 1, line_number, false)[1]
 
 		local match_start, match_end = string.find(line_content, pattern)
 		if match_start then
-			vim.api.nvim_buf_add_highlight(menuBuf, -1, "ArrowAction", line_number - 1, match_start - 1, match_end)
+			vim.api.nvim_buf_add_highlight(
+				menuBuf,
+				-1,
+				"ArrowAction",
+				line_number - 1,
+				match_start - 1,
+				match_end
+			)
 		end
 
 		line_number = line_number + 1

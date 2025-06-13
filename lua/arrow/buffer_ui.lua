@@ -50,7 +50,7 @@ local function getActionsMenu(count)
 	if has_current_line then
 		table.insert(return_mappings, 1, string.format("  %s Remove Line", mappings.toggle))
 	else
-		table.insert(return_mappings, 1, string.format("  %s Save Line", mappings.toggle))
+		table.insert(return_mappings, 1, string.format("  %s Add Line", mappings.toggle))
 	end
 
 	return return_mappings
