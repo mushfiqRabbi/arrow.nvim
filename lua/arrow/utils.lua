@@ -121,6 +121,10 @@ function M.get_buffer_path(bufnr)
 	local save_key = config.getState("save_key_cached") or config.getState("save_key")()
 	local escaped_save_key = save_key:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%1")
 
+	if config.getState("global_bookmarks") == true then
+		return absolute_buffer_path
+	end
+
 	if absolute_buffer_path:find("^" .. escaped_save_key .. "/") then
 		if config.getState("save_key_name") == "git_root_bare" then
 			return vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
